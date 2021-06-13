@@ -1,0 +1,36 @@
+{% extends "_.html" %}
+
+{% block content %}
+			<section id="thread_baru" class="request">
+				 <div class="container">
+					<div class="row">
+					   <div class="col-md-12">
+						  <div class="titlepage">
+							 <h2>Mengedit postingan"</h2>
+						  </div>
+					   </div>
+					</div>
+					 <div class="container">
+						 <div class="thread_box">
+							<div class="col-sm-12">
+							   <form method="post">
+									<div class="main_form">
+										  <div class="row">
+											 <div class="col-md-12 ">
+												<input class="contactus" placeholder="Judul" type="text" id="judul" name="judul" value="{{ post.judul }}" required>
+											</div>
+											<div class="col-md-12">
+												<textarea class="textarea" placeholder="Isi Post" id="isi" name="isi" value="{{ post.isi }}" required></textarea>
+											</div>
+											<div class="col-sm-12">
+												<button class="send_btn">Send</button>
+											</div>
+										  </div>
+									   </div>
+								  </form>
+							  </div>
+						   </div>
+						</div>
+				  </div>
+		  </section>
+{% endblock %}

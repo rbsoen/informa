@@ -1,0 +1,36 @@
+{% extends "_.html" %}
+
+{% block content %}
+			<section id="admin" class="request">
+				 <div class="container">
+					<div class="row">
+					   <div class="col-md-12">
+						  <div class="titlepage">
+							 <h2>Membalas dalam thread </br>"{{ thread.judul }}"</h2>
+						  </div>
+					   </div>
+					</div>
+					 <div class="container">
+						 <div class="admin_box">
+							<div class="col-sm-12">
+							   <form method="post">
+									<div class="main_form">
+										  <div class="row">
+											 <div class="col-md-12 ">
+												<input class="contactus" placeholder="Judul Topik" type="text" id="judul" name="judul" value="Re: {{ post_name or thread.judul }}" required>
+											</div>
+											<div class="col-md-12 ">
+												<textarea class="textarea" placeholder="Isi postingan" id="isi" name="isi" required></textarea>
+											</div>
+											<div class="col-sm-12">
+												<button class="send_btn">Send</button>
+											</div>
+										  </div>
+									   </div>
+								  </form>
+							  </div>
+						   </div>
+						</div>
+				  </div>
+		  </section>
+{% endblock %}

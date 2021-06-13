@@ -1,0 +1,168 @@
+{% extends "__.html" %}
+
+{% block content %}
+        <section class="banner_main">
+           <div class="container-fluid">
+              <div class="row d_flex">
+                 <div class="col-md-5">
+                    <div class="text-bg">
+                       <h1>Ini Forum <br>Mahasiswa</h1>
+                       <strong>Selamat Datang</strong>
+					   {% if current_user %}
+							<span>{{ current_user.nama }}</span>
+							{% if current_user.is_admin %}
+							<a href="{{ url_for('site.admin') }}">Area Admin</a>
+							{% endif %}
+						{% else %}
+							<span>Kelompok 8A</span>
+                          <a href="{{ url_for('site.register') }}">Daftar</a>
+						{% endif %}
+                    </div>
+                 </div>
+                 <div class="col-md-7 padding_right1">
+                    <div class="text-img">
+                       <figure><img src="static/images/top_img.png" alt="#"/></figure>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+      <!-- about -->
+      <section id="about" class="about">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage">
+                     <h2>Tentang INFORMA</h2>
+                     <span>Forum untuk mahasiswa dapat membahas kesehariannya </br>seperti rekomendasi tempat hang-out, seputar perkuliahan, atau diskusi topik-topik umum</span>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-8 offset-md-2 ">
+                  <div class="about_box ">
+                     <figure><img src="static/images/about_img.png" alt="#"/></figure>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+	  <!-- anggota -->
+      <section class="testimonial">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="titlepage">
+                     <h2>Anggota Kelompok 8A</h2>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div id="myCarousel" class="carousel slide testimonial_Carousel " data-ride="carousel">
+                     <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+						<li data-target="#myCarousel" data-slide-to="3"></li>
+                     </ol>
+                     <div class="carousel-inner">
+                        <div class="carousel-item active">
+                           <div class="container">
+                              <div class="carousel-caption ">
+                                 <div class="row">
+                                    <div  class="col-md-12">
+                                       <div class="test_box">
+                                          <h3>Febriana Pasonang Sidauruk</h3>
+                                          <p>(1906300725)</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="carousel-item">
+                           <div class="container">
+                              <div class="carousel-caption">
+                                 <div class="row">
+                                    <div  class="col-md-12">
+                                       <div class="test_box">
+                                          <h3>Rodriguez Breil Soenoto</h3>
+                                          <p>(1906355592)</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="carousel-item">
+                           <div class="container">
+                              <div class="carousel-caption">
+                                 <div class="row">
+                                    <div  class="col-md-12">
+                                       <div class="test_box">
+                                          <h3>Salma Shafira</h3>
+										  <p>(1906300832)</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+						<div class="carousel-item">
+                           <div class="container">
+                              <div class="carousel-caption">
+                                 <div class="row">
+                                    <div  class="col-md-12">
+                                       <div class="test_box">
+                                          <h3>Tedi Setiawan</h3>
+										  <p>(1906300864)</p>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                     <span class="sr-only">Previous</span>
+                     </a>
+                     <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                     <span class="sr-only">Next</span>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      
+      
+		  <section id="topics" class="topics">
+			 <div class="container">
+				 <div class="akun_box">
+					<div class="row">
+					   <div class="col-md-12">
+						  <div class="titlepage">
+							 <h3>Topik</h3>
+						  </div>
+					   </div>
+					</div>
+				   <div class="col-sm-12">
+						 <div class="row">
+						 {% for topic in topics %}
+							<div class="col-md-6 ">
+								<div class="best_box">
+								   <a href="{{ url_for('site.show_topic', topic_id=topic.id) }}">{{topic.judul}}</a>
+								</div>
+							</div>
+						 {% endfor %}
+						 </div>
+					  </div>
+				   </div>
+				</div>
+		  </section>
+{% endblock %}

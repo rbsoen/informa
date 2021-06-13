@@ -1,0 +1,157 @@
+{% extends "_.html" %}
+
+{% block content %}
+			<section id="thread" class="request">
+				 <div class="container">
+				 	<br><br>
+				 	<div class="row">
+				 	<p>Informa > <a href="{{ url_for('site.show_topic', topic_id=get_topik(thread.topik).id) }}">{{ get_topik(thread.topik).judul }}</a> > {{ thread.judul }}</p>
+				 	<br><br>
+				 	</div>
+					<div class="row">
+					   <div class="col-md-12">
+						  <div class="titlepage">
+							 <h2>{{ thread.judul }}</h2>
+							 {% if current_user %}
+							 <div id="popup2"></div>
+							 <div id="popUpOverlay"></div>
+							 <div class="col-md-12 ">
+								 <div id="popUpBox">
+									<div class="akun_box">
+										<div id="closeModal"></div>
+									   <form method="post" action="{{ url_for('site.thread_reply_form_submit', thread_id=thread.id) }}">
+											<div class="main_form">
+												  <div class="row">
+													 <div class="col-md-12 ">
+														<input class="contactus" placeholder="Judul Topik" type="text" id="judul" name="judul" value="Re: {{ post_name or thread.judul }}" required>
+													</div>
+													<div class="col-md-12 ">
+														<textarea class="textarea" placeholder="Isi postingan" id="isi" name="isi" required></textarea>
+													</div>
+													<div class="col-sm-12">
+														<button class="send_btn">Send</button>
+													</div>
+												  </div>
+											   </div>
+										  </form>
+									</div>
+								</div>
+								</div>
+								
+							 <button onclick="Alert.render()" class="btn">Beri Masukanmu</button>
+							 {% endif %}
+						  </div>
+					   </div>
+					</div>
+					 <div class="container">
+						 <div class="admin_box">
+							<div class="row">
+							{% for post in posts %}
+							   <div class="col-md-12 ">
+									<div class="thread_box">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="thread_inbox">
+													<a href="{{ make_user_link(post.pembuat)[0] }}">Dari: {{ make_user_link(post.pembuat)[1] }}</a>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="thread_inbox">
+													<p>Pada: {{ reformat_time(post.waktu) }}</p>
+												</div>
+											</div>
+											{% if post.pembuat == current_user.id %}
+											<div class="col-md-6">
+												<div class="thread_inbox" style="background: rgb(0,128,0);">
+													<a style="color: white;" href="{{ url_for('site.edit_post', post_id=post.id) }}">Edit</a>
+												</div>
+											</div>
+											{% endif %}
+										</div>
+										<div class="thread_inbox">
+											<p>Isi Post: </p>
+											<h>{{ post.isi }}</h>
+										</div>
+										<div class="row reveal_on_hover2">
+											<div class="col-md-6">
+												{% if find_reactions(post.id).fetchone() %}
+												<div class="thread_inbox">
+													<div class="thread_inbox_butt"><p>Reaksi: </p></div>
+													{% for reaction in find_reactions(post.id) %}
+													<p>{{ make_user_link(reaction.dari)[1] }}</p>: {{ reaction.reaksi }}
+													{% endfor %}
+												</div>
+												{% endif %}
+											</div>
+										{% if current_user %}
+											<div class="col-md-6">
+												<div class="thread_inbox_butt">
+													<div class="thread_inbox">Beri Reaksi:</div>
+													<div class="row">
+														<div class="col-md-6">
+															<div class="masukan"><a href="javascript:void(0)" onclick="send_reaction('Terkejut', {{ post.id }})">Terkejut</a></div>
+															<div class="masukan"><a href="javascript:void(0)" onclick="send_reaction('Senang', {{ post.id }})">Senang</a></div>
+														</div>
+														<div class="col-md-6">
+															<div class="masukan"><a href="javascript:void(0)" onclick="send_reaction('Marah', {{ post.id }})">Marah</a></div>
+															<div class="masukan"><a href="javascript:void(0)" onclick="send_reaction('Bangga', {{ post.id }})">Bangga</a></div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										{% endif %}
+									</div>
+								</div>
+							{% endfor %}
+							</div>
+						 </div>
+					</div>
+				 </div>
+		  </section>
+{% endblock %}
+
+{% block script %}
+<script>
+	function send_reaction(reaction, post){
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if(this.readyState==4 && this.status==200){
+				alert(this.responseText);
+				document.location.reload(true)
+			}
+		};
+		xhr.open("post", "/post/"+post+"/reaksi");
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.send("reaksi="+reaction);
+	}
+	var Alert = new CustomAlert();
+
+function CustomAlert(){
+
+  this.render = function(){
+
+      //Show Modal
+
+      let popUpBox = document.getElementById('popUpBox');
+
+      popUpBox.style.display = "block";
+      popUpBox.style.position = "fixed";
+      popUpBox.style.top = "25%";
+
+      //Close Modal
+
+      document.getElementById('closeModal').innerHTML = '<button onclick="Alert.ok()" style="position: absolute; right: 1em; padding: .5em 1em; border-radius: 100%;"> X </button>';
+
+  }
+  
+this.ok = function(){
+
+  document.getElementById('popUpBox').style.display = "none";
+  document.getElementById('popUpOverlay').style.display = "none";
+
+}
+
+}
+</script>
+{% endblock %}

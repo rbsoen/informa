@@ -1,0 +1,41 @@
+{% extends "_.html" %}
+
+{% block content %}
+			<section id="admin" class="request">
+				 <div class="container">
+					<div class="row">
+					   <div class="col-md-12">
+						  <div class="titlepage">
+							 <h2>Admin Area</h2>
+							 <span>Selamat datang di laman admin</span>
+						  </div>
+					   </div>
+					</div>
+					 <div class="container">
+						 <div class="admin_box">
+							<div class="row">
+							   <div class="col-md-12">
+								  <div class="titlepage">
+									 <h3>Tambah Topik</h3>
+								  </div>
+							   </div>
+							</div>
+							<div class="col-sm-12">
+							   <form action="{{ url_for('site.add_topic') }}" method="post">
+									<div class="main_form">
+										  <div class="row">
+											 <div class="col-md-12 ">
+												<input class="contactus" placeholder="Judul Topik" id="judul" name="judul" required>
+											</div>
+												<div class="col-sm-12">
+												<button class="send_btn">Tambah Topik</button>
+											</div>
+										  </div>
+									   </div>
+								  </form>
+							  </div>
+						   </div>
+						</div>
+				  </div>
+		  </section>
+{% endblock %}

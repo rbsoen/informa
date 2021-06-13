@@ -1,0 +1,406 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.2
+-- Dumped by pg_dump version 13.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: reaksi; Type: TYPE; Schema: public; Owner: informa
+--
+
+CREATE TYPE public.reaksi AS ENUM (
+    'Terkejut',
+    'Senang',
+    'Marah',
+    'Bangga'
+);
+
+
+ALTER TYPE public.reaksi OWNER TO informa;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: forum_user; Type: TABLE; Schema: public; Owner: informa
+--
+
+CREATE TABLE public.forum_user (
+    id integer NOT NULL,
+    email character varying,
+    password character varying,
+    nama character varying(64),
+    institusi character varying,
+    is_admin boolean DEFAULT false
+);
+
+
+ALTER TABLE public.forum_user OWNER TO informa;
+
+--
+-- Name: forum_user_id_seq; Type: SEQUENCE; Schema: public; Owner: informa
+--
+
+CREATE SEQUENCE public.forum_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.forum_user_id_seq OWNER TO informa;
+
+--
+-- Name: forum_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: informa
+--
+
+ALTER SEQUENCE public.forum_user_id_seq OWNED BY public.forum_user.id;
+
+
+--
+-- Name: post; Type: TABLE; Schema: public; Owner: informa
+--
+
+CREATE TABLE public.post (
+    id integer NOT NULL,
+    judul character varying,
+    isi character varying,
+    waktu timestamp without time zone DEFAULT now(),
+    thread integer,
+    pembuat integer
+);
+
+
+ALTER TABLE public.post OWNER TO informa;
+
+--
+-- Name: post_id_seq; Type: SEQUENCE; Schema: public; Owner: informa
+--
+
+CREATE SEQUENCE public.post_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.post_id_seq OWNER TO informa;
+
+--
+-- Name: post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: informa
+--
+
+ALTER SEQUENCE public.post_id_seq OWNED BY public.post.id;
+
+
+--
+-- Name: reaksi_post; Type: TABLE; Schema: public; Owner: informa
+--
+
+CREATE TABLE public.reaksi_post (
+    reaksi public.reaksi,
+    dari integer,
+    post integer
+);
+
+
+ALTER TABLE public.reaksi_post OWNER TO informa;
+
+--
+-- Name: thread; Type: TABLE; Schema: public; Owner: informa
+--
+
+CREATE TABLE public.thread (
+    id integer NOT NULL,
+    judul character varying,
+    waktu timestamp without time zone DEFAULT now(),
+    topik integer,
+    pembuat integer
+);
+
+
+ALTER TABLE public.thread OWNER TO informa;
+
+--
+-- Name: thread_id_seq; Type: SEQUENCE; Schema: public; Owner: informa
+--
+
+CREATE SEQUENCE public.thread_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.thread_id_seq OWNER TO informa;
+
+--
+-- Name: thread_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: informa
+--
+
+ALTER SEQUENCE public.thread_id_seq OWNED BY public.thread.id;
+
+
+--
+-- Name: topik; Type: TABLE; Schema: public; Owner: informa
+--
+
+CREATE TABLE public.topik (
+    id integer NOT NULL,
+    judul character varying
+);
+
+
+ALTER TABLE public.topik OWNER TO informa;
+
+--
+-- Name: topik_id_seq; Type: SEQUENCE; Schema: public; Owner: informa
+--
+
+CREATE SEQUENCE public.topik_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.topik_id_seq OWNER TO informa;
+
+--
+-- Name: topik_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: informa
+--
+
+ALTER SEQUENCE public.topik_id_seq OWNED BY public.topik.id;
+
+
+--
+-- Name: forum_user id; Type: DEFAULT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.forum_user ALTER COLUMN id SET DEFAULT nextval('public.forum_user_id_seq'::regclass);
+
+
+--
+-- Name: post id; Type: DEFAULT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.post ALTER COLUMN id SET DEFAULT nextval('public.post_id_seq'::regclass);
+
+
+--
+-- Name: thread id; Type: DEFAULT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.thread ALTER COLUMN id SET DEFAULT nextval('public.thread_id_seq'::regclass);
+
+
+--
+-- Name: topik id; Type: DEFAULT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.topik ALTER COLUMN id SET DEFAULT nextval('public.topik_id_seq'::regclass);
+
+
+--
+-- Data for Name: forum_user; Type: TABLE DATA; Schema: public; Owner: informa
+--
+
+COPY public.forum_user (id, email, password, nama, institusi, is_admin) FROM stdin;
+1	admin@informa.local	sha256$032d4Rxyzzz6noGH$1ece19e3949ff5c26c2968419d76208485cf19c1dcebc93e1d4ca5f60150bdff	Admin	Informa	t
+2	user1@informa.local	sha256$9VeQbRPE6Fuv9jUR$568b1a23f2b3ca2ede6057ac97f606b856e579d873583aa75c7cd22fb84f8763	User1	Informa	f
+3	user2@informa.local	sha256$d1igCuOHA10iMj2z$3547fe3d69a8e2d8c32bfd21ccc0f4b15d250e847e1a6c4ef9bd3595d2142ff5	User2	Informa	f
+\.
+
+
+--
+-- Data for Name: post; Type: TABLE DATA; Schema: public; Owner: informa
+--
+
+COPY public.post (id, judul, isi, waktu, thread, pembuat) FROM stdin;
+1	Tips meningkatkan IPK?	Halo Informers, akhir-akhir ini saya merasa kurang pede karena IPK saya menurutku kurang memuaskan. Menurut kalian mudah atau sulit bagi saya untuk memperbaiki hal ini? Terima kasih!	2021-06-13 15:14:51.130243	1	2
+2	Re: Tips meningkatkan IPK?	Jangan khawatir! Coba semester depan, kamu atur baik-baik jadwalmu sehingga bisa belajar dengan baik. You can do it!	2021-06-13 15:17:21.099534	1	3
+3	Kafe SAO Review	Tempat ini terletak di Kutek. Menurut saya tempat ini cukup bagus, terlihat trendy dan nyaman bagi kita. Kekurangannya mungkin hanya buka sore. Bagaimana menurut kalian?	2021-06-13 15:19:44.228685	2	3
+4	Re: Kafe SAO Review	Aku sering ke sana	2021-06-13 15:19:58.136771	2	2
+\.
+
+
+--
+-- Data for Name: reaksi_post; Type: TABLE DATA; Schema: public; Owner: informa
+--
+
+COPY public.reaksi_post (reaksi, dari, post) FROM stdin;
+Senang	2	2
+\.
+
+
+--
+-- Data for Name: thread; Type: TABLE DATA; Schema: public; Owner: informa
+--
+
+COPY public.thread (id, judul, waktu, topik, pembuat) FROM stdin;
+1	Tips meningkatkan IPK?	2021-06-13 15:14:51.046199	2	2
+2	Kafe SAO Review	2021-06-13 15:19:44.192429	3	3
+\.
+
+
+--
+-- Data for Name: topik; Type: TABLE DATA; Schema: public; Owner: informa
+--
+
+COPY public.topik (id, judul) FROM stdin;
+1	Berita dan Umum
+2	Perkuliahan
+3	Rekomendasi Tempat Hangout
+4	Random Topic
+\.
+
+
+--
+-- Name: forum_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: informa
+--
+
+SELECT pg_catalog.setval('public.forum_user_id_seq', 3, true);
+
+
+--
+-- Name: post_id_seq; Type: SEQUENCE SET; Schema: public; Owner: informa
+--
+
+SELECT pg_catalog.setval('public.post_id_seq', 4, true);
+
+
+--
+-- Name: thread_id_seq; Type: SEQUENCE SET; Schema: public; Owner: informa
+--
+
+SELECT pg_catalog.setval('public.thread_id_seq', 2, true);
+
+
+--
+-- Name: topik_id_seq; Type: SEQUENCE SET; Schema: public; Owner: informa
+--
+
+SELECT pg_catalog.setval('public.topik_id_seq', 4, true);
+
+
+--
+-- Name: forum_user forum_user_email_key; Type: CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.forum_user
+    ADD CONSTRAINT forum_user_email_key UNIQUE (email);
+
+
+--
+-- Name: forum_user forum_user_pkey; Type: CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.forum_user
+    ADD CONSTRAINT forum_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: post post_pkey; Type: CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.post
+    ADD CONSTRAINT post_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: thread thread_pkey; Type: CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.thread
+    ADD CONSTRAINT thread_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: topik topik_judul_key; Type: CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.topik
+    ADD CONSTRAINT topik_judul_key UNIQUE (judul);
+
+
+--
+-- Name: topik topik_pkey; Type: CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.topik
+    ADD CONSTRAINT topik_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: post post_pembuat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.post
+    ADD CONSTRAINT post_pembuat_fkey FOREIGN KEY (pembuat) REFERENCES public.forum_user(id);
+
+
+--
+-- Name: post post_thread_fkey; Type: FK CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.post
+    ADD CONSTRAINT post_thread_fkey FOREIGN KEY (thread) REFERENCES public.thread(id);
+
+
+--
+-- Name: reaksi_post reaksi_post_dari_fkey; Type: FK CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.reaksi_post
+    ADD CONSTRAINT reaksi_post_dari_fkey FOREIGN KEY (dari) REFERENCES public.forum_user(id);
+
+
+--
+-- Name: reaksi_post reaksi_post_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.reaksi_post
+    ADD CONSTRAINT reaksi_post_post_fkey FOREIGN KEY (post) REFERENCES public.post(id);
+
+
+--
+-- Name: thread thread_pembuat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.thread
+    ADD CONSTRAINT thread_pembuat_fkey FOREIGN KEY (pembuat) REFERENCES public.forum_user(id);
+
+
+--
+-- Name: thread thread_topik_fkey; Type: FK CONSTRAINT; Schema: public; Owner: informa
+--
+
+ALTER TABLE ONLY public.thread
+    ADD CONSTRAINT thread_topik_fkey FOREIGN KEY (topik) REFERENCES public.topik(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

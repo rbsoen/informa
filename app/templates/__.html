@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- setingan halaman -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      <!-- informasi website -->
+      <title>Informa</title>
+      <meta name="keywords" content="forum,mahasiswa">
+      <meta name="description" content="Forum untuk Mahasiswa">
+      <meta name="author" content="Kelompok 8A">
+      
+      <!-- css -->
+      <link rel="stylesheet" href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename= 'css/responsive.css') }}">
+      <link rel="stylesheet" href="{{ url_for('static', filename= 'css/jquery.mCustomScrollbar.min.css') }}">
+      
+      <!-- favicon -->
+      <link rel="icon" href="{{ url_for('static', filename= 'images/fevicon.png') }}" type="image/png" />
+   </head>
+
+   <body class="main-layout">
+      <!-- loader  -->
+      <div class="loader_bg">
+         <div class="loader"><img src="{{ url_for('static', filename='images/loading.gif') }}" alt="#" /></div>
+      </div>
+
+      <!-- header -->
+      <header>
+         <div  class="head_top">
+            <div class="header">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                        <div class="full">
+                           <div class="center-desk">
+                              <div class="logo">
+                                 <a href="{{ url_for('site.main') }}"><img src="static/images/logo.png" alt="#" /></a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                        <nav class="navigation navbar navbar-expand-md navbar-dark ">
+                           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                           <span class="navbar-toggler-icon"></span>
+                           </button>
+                           <div class="collapse navbar-collapse" id="navbarsExample04">
+                              <ul class="navbar-nav mr-auto">
+                                 <li class="nav-item">
+                                    <a class="nav-link" href="{{ url_for('site.main') }}"> Beranda  </a>
+                                 </li>
+                                 <li class="nav-item">
+                                    <a class="nav-link" href="#about">Tentang</a>
+                                 </li>
+								 <li class="nav-item">
+                                    <a class="nav-link" href="#topics">Topik</a>
+                                 </li>
+                              </ul>
+							  {% if current_user %}
+							  <div class="sign_btn"><a href="{{ url_for('site.logout') }}">Keluar</a></div>
+							  {% else %}
+                              <div class="sign_btn"><a href="{{ url_for('site.login') }}">Masuk</a></div>
+							  {% endif %}
+                           </div>
+                        </nav>
+                     </div>
+                  </div>
+               </div>
+            </div>
+        </div>
+      </header>
+      <section id="main">
+      <!-- end anggota -->
+		{% block content %}
+		{% endblock %}
+      <!--  footer -->
+      </section>
+      <footer>
+		<div class="copyright">
+		   <div class="container">
+			  <div class="row">
+				 <div class="col-md-12">
+					<p>© 2021 Proyek SBD Kelompok 8A </br>by PCOINT FREE CSS TEMPLATE</p>
+				 </div>
+			  </div>
+		   </div>
+		</div>
+      </footer>
+      <!-- end footer -->
+      <!-- Javascript files-->
+      <script src="{{ url_for('static', filename= 'js/jquery.min.js') }}"></script>
+      <script src="{{ url_for('static', filename= 'js/popper.min.js') }}"></script>
+	  <script src="{{ url_for('static', filename= 'js/bootstrap.bundle.min.js') }}"></script>
+	  <script src="{{ url_for('static', filename= 'js/jquery-3.0.0.min.js') }}"></script>
+	  <script src="{{ url_for('static', filename= 'js/plugin.js') }}"></script>
+      <!-- sidebar -->
+	  <script src="{{ url_for('static', filename= 'js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+	  <script src="{{ url_for('static', filename= 'js/custom.js') }}"></script>
+      <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+   </body>
+</html>
+
