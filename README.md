@@ -14,8 +14,9 @@ Teknik Komputer Universitas Indonesia
 ## Deskripsi
 
 Informa merupakan web application berbentuk forum
-Server: Python dengan library Flask
-Database: PostgreSQL
+
+* **Server**: Python dengan library Flask
+* **Database**: PostgreSQL
 
 ## Prerequisites
 
@@ -36,11 +37,13 @@ Database: PostgreSQL
 	Untuk menginisialisasi web server dan melakukan koneksi pada database
 	
 4. 	**app/database.py** - 
-	Berisi function run yang berfungsi untuk mempersingkat panggilan untuk SQL query, contohnya: run(‘select * from forum_user;’)
+	Berisi function run yang berfungsi untuk mempersingkat panggilan untuk SQL query, contohnya: `run(‘select * from forum_user;’)`
 	Output berupa hasil query dalam bentuk baris-baris
 
 5. 	**informa.psql** - 
 	Contoh isi database `informa`
+	* Password (admin): admin
+	* Password (user1, user2): user
 	
 6. 	**app/login.py** - 
 	Berfungsi untuk membantu meng-handle browser session dalam hal login dan logout
