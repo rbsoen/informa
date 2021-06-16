@@ -278,7 +278,7 @@ def thread_delete(thread_id):
 
     # hapus thread beserta post-postnya
     run('''
-    	delete from reaksi_post where post=:id;
+    	delete from reaksi_post where post in (select id from post where thread=:id);
     	delete from post where thread=:id;
         delete from thread where id=:id;
     ''',
